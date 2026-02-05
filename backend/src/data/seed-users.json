@@ -1,0 +1,11 @@
+[
+  {
+    "_id": "super_admin_1",
+    "name": "Super Admin",
+    "email": "admin@busbook.com",
+    "phone": "614386039",
+    "password": "admin123",
+    "role": "super_admin",
+    "status": "approved"
+  }
+]
