@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://deeqo:VYi7pRGD6P7Z2qZF@cluster0.pma57ms.mongodb.net/?appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://himilaonline_db_user:AB3ibbn7pRy0ktXC@cluster0.kbanand.mongodb.net/';
 
 export async function connectDB() {
   try {
