@@ -444,6 +444,11 @@ BusBook - Safar Raaxo leh!`;
       })
     : [];
 
+  // Unique cities from all buses for suggestions
+  const allSystemBuses = typeof window !== 'undefined' ? getBuses() : [];
+  const citiesFrom = Array.from(new Set(allSystemBuses.map(b => b.from))).sort();
+  const citiesTo = Array.from(new Set(allSystemBuses.map(b => b.to))).sort();
+
   const navItems = [
     { id: 'dashboard' as const, label: 'Dashboard', icon: LayoutDashboard },
     { id: 'buses' as const, label: 'Basaskeeyga', icon: BusIcon },
@@ -1490,9 +1495,15 @@ BusBook - Safar Raaxo leh!`;
                         value={formData.from}
                         onChange={(e) => setFormData({ ...formData, from: e.target.value })}
                         placeholder="Tusaale: Mogadishu"
+                        list="cities-from"
                         required
                         className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
                       />
+                      <datalist id="cities-from">
+                        {citiesFrom.map(city => (
+                          <option key={city} value={city} />
+                        ))}
+                      </datalist>
                     </div>
                     <div className="space-y-2">
                       <Label className="text-white/80">Ilaa (Magaalada)</Label>
@@ -1500,9 +1511,15 @@ BusBook - Safar Raaxo leh!`;
                         value={formData.to}
                         onChange={(e) => setFormData({ ...formData, to: e.target.value })}
                         placeholder="Tusaale: Hargeisa"
+                        list="cities-to"
                         required
                         className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
                       />
+                      <datalist id="cities-to">
+                        {citiesTo.map(city => (
+                          <option key={city} value={city} />
+                        ))}
+                      </datalist>
                     </div>
                     <div className="space-y-2">
                       <Label className="text-white/80">Taariikhda Safarka</Label>

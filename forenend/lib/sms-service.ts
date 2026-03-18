@@ -25,7 +25,7 @@ export async function sendSMS(phoneNumber: string, message: string): Promise<SMS
 
 // Welcome message for new user registration
 export async function sendWelcomeSMS(phoneNumber: string, userName: string): Promise<SMSResponse> {
-  const message = `Soo dhawoow ${userName}! Ku mahadsan tahay is-diiwaan gelintaada BusBook. Hadda waxaad diyaar u tahay inaad tigidhka bas-ka online-ka ah ka dalbanayso. Safar wanaagsan!`;
+  const message = `[Deeqo Bus] Soo dhawoow ${userName}! Ku mahadsan tahay is-diiwaan gelintaada. Hadda waxaad diyaar u tahay inaad tigidhkaaga online ku goosato. Safar wanaagsan!`;
   return sendSMS(phoneNumber, message);
 }
 
@@ -44,21 +44,7 @@ export async function sendTripReminderSMS(
   departureTime: string,
   seatNumbers: number[]
 ): Promise<SMSResponse> {
-  const message = `BUSBOOK - Xusuusin Safar!
-
-Salaamu Calaykum ${userName},
-
-Safarkaagu wuu soo dhow yahay!
-
-BAS: ${busName}
-SAFAR: ${from} ilaa ${to}
-WAQTI: ${departureTime}
-KURSI(YO): ${seatNumbers.sort((a, b) => a - b).join(', ')}
-
-Fadlan 30 daqiiqo ka hor soo gaadhsi baska.
-
-Safar wanaagsan!
-BusBook`;
+  const message = `[Deeqo Bus] Xusuusin Safar! Salaamu Calaykum ${userName}, safarkaagu wuu soo dhow yahay! BAS: ${busName}, SAFAR: ${from} - ${to}, WAQTI: ${departureTime}, KURSI: ${seatNumbers.sort((a, b) => a - b).join(', ')}. Fadlan 30 daqiiqo ka hor soo gaadh.`;
   
   return sendSMS(phoneNumber, message);
 }
@@ -72,20 +58,7 @@ export async function sendCancellationSMS(
   to: string,
   refundAmount: number
 ): Promise<SMSResponse> {
-  const message = `BUSBOOK - Joojinta Booking
-
-Salaamu Calaykum ${userName},
-
-Booking-gaaga waa la joojiyay.
-
-BAS: ${busName}
-SAFAR: ${from} ilaa ${to}
-LACAG LA CELIN DOONO: $${refundAmount.toFixed(2)}
-
-Haddii aad su'aalo qabtid, nala soo xiriir.
-
-Mahadsanid,
-BusBook`;
+  const message = `[Deeqo Bus] Joojinta Booking! Salaamu Calaykum ${userName}, dalabkaagii baska ${busName} (${from}-${to}) waa la joojiyay. Refund: $${refundAmount.toFixed(2)}. Mahadsanid.`;
   
   return sendSMS(phoneNumber, message);
 }
@@ -103,34 +76,8 @@ export async function sendBookingConfirmationSMS(
   totalAmount: number,
   passengers?: PassengerSMS[]
 ): Promise<SMSResponse> {
-  // Format passengers list beautifully
-  let passengersText = '';
-  if (passengers && passengers.length > 0) {
-    passengersText = passengers
-      .sort((a, b) => a.seatNumber - b.seatNumber)
-      .map(p => `  * ${p.passengerName} - Kursi #${p.seatNumber}`)
-      .join('\n');
-  } else {
-    passengersText = `  Kursi(yo): ${seatNumbers.sort((a, b) => a - b).join(', ')}`;
-  }
-
-  const message = `BUSBOOK - Tigidhkaaga!
-
-Salaamu Calaykum ${userName},
-
-Dalabkaagu waa la xaqiijiyay.
-
-BAS: ${busName}
-SAFAR: ${from} ilaa ${to}
-TAARIIKH: ${departureDate}
-WAQTI: ${departureTime}
-
-RAKAABKA:
-${passengersText}
-
-WADARTA: $${totalAmount.toFixed(2)}
-
-Mahadsanid, safar wanaagsan!`;
+  const seats = seatNumbers.sort((a, b) => a - b).join(', ');
+  const message = `[Deeqo Bus] Tigidhkaaga! Salaamu Calaykum ${userName}, dalabkaaga waa la xaqiijiyay. BAS: ${busName}, SAFAR: ${from}-${to}, TAARIIKH: ${departureDate} (${departureTime}), KURSI: ${seats}, WADARTA: $${totalAmount.toFixed(2)}. Safar wanaagsan!`;
   
   return sendSMS(phoneNumber, message);
 }

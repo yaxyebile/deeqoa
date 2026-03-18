@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
     // Default to failure if no clear success indicator
     return NextResponse.json({
       success: false,
-      message: data.message || data.error || 'Lacag bixinta way fashilantay. Fadlan hubi lambarkaaga.',
+      message: data.message || data.error || 'Khalad ayaa ka dhacay lacag bixinta. Fadlan isku day mar kale.',
       error: data.error || data.message,
     });
   } catch (error) {

@@ -10,23 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'BusBook - Online Bus Ticket Booking',
   description: 'Book bus tickets online with ease. Find buses, select seats, and travel comfortably.',
-  generator: 'v0.app',
+  generator: 'Deeqo Bus',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+
   },
 }
 
@@ -37,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <AuthProvider>
           {children}
         </AuthProvider>

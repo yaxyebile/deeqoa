@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const SMS_API_URL = "https://smsgateway24.com/getdata/addsms";
-const DEVICE_ID = "12539";
-const TOKEN = "9cc542db9cc23b626ae294a166a1594d";
+const SMS_API_URL = "https://api.xaliye6.online/sendSMS";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,31 +13,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Format phone number - remove any spaces or dashes
-    const cleanPhone = phoneNumber.replace(/[\s-]/g, '');
-
-    const formData = new URLSearchParams();
-    formData.append('sendto', cleanPhone);
-    formData.append('body', message);
-    formData.append('device_id', DEVICE_ID);
-    formData.append('sim', '1');
-    formData.append('token', TOKEN);
+    // Format phone number - remove any spaces or dashes, ensure it starts with +252 if not present
+    let cleanPhone = phoneNumber.replace(/[\s-]/g, '');
+    if (!cleanPhone.startsWith('+')) {
+      if (cleanPhone.startsWith('252')) {
+        cleanPhone = '+' + cleanPhone;
+      } else {
+        // Assume it's a local number if it starts with 6 or 7
+        cleanPhone = '+252' + cleanPhone.replace(/^0/, '');
+      }
+    }
 
     const response = await fetch(SMS_API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: formData.toString(),
+      body: JSON.stringify({
+        mobile: cleanPhone,
+        message: message,
+      }),
     });
 
     if (response.ok) {
-      const data = await response.text();
+      const data = await response.json();
       return NextResponse.json({ success: true, data });
     } else {
+      const errorText = await response.text();
+      console.error('SMS API error response:', errorText);
       return NextResponse.json(
         { success: false, error: 'Failed to send SMS' },
-        { status: 500 }
+        { status: response.status }
       );
     }
   } catch (error) {

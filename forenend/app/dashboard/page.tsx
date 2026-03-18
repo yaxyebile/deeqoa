@@ -64,6 +64,7 @@ export default function UserDashboard() {
   const { user } = useAuth();
   const [activeView, setActiveView] = useState<ViewType>('search');
   const [buses, setBuses] = useState<Bus[]>([]);
+  const [allBuses, setAllBuses] = useState<Bus[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [searchFrom, setSearchFrom] = useState('');
   const [searchTo, setSearchTo] = useState('');
@@ -111,8 +112,9 @@ export default function UserDashboard() {
     : null;
 
   const loadData = () => {
-    const allBuses = getBuses();
-    setBuses(getAvailableBuses(allBuses));
+    const busesData = getBuses();
+    setAllBuses(busesData);
+    setBuses(getAvailableBuses(busesData));
     if (user) {
       setBookings(getBookingsByUserId(user.id));
       setSavedRoutes(getSavedRoutesByUserId(user.id));
@@ -161,6 +163,20 @@ export default function UserDashboard() {
     setBuses(getAvailableBuses(results));
     setHasSearched(true);
   };
+
+  // Unique cities for suggestions
+  const citiesFrom = Array.from(new Set(allBuses.map(b => b.from))).sort();
+  const citiesTo = Array.from(new Set(allBuses.map(b => b.to))).sort();
+
+  // Live search when typing
+  useEffect(() => {
+    if (searchFrom || searchTo || searchDate) {
+      handleSearch();
+    } else if (hasSearched) {
+      // If we cleared the search, reload all available buses
+      setBuses(getAvailableBuses(allBuses));
+    }
+  }, [searchFrom, searchTo, searchDate]);
 
   const handleClearSearch = () => {
     setSearchFrom('');
@@ -380,8 +396,14 @@ export default function UserDashboard() {
                           placeholder="Halka ka bixayso..."
                           value={searchFrom}
                           onChange={(e) => setSearchFrom(e.target.value)}
+                          list="cities-from"
                           className="pl-10 h-10 sm:h-12 rounded-lg sm:rounded-xl border-border/50 bg-background focus:ring-2 focus:ring-primary/20 text-sm sm:text-base"
                         />
+                        <datalist id="cities-from">
+                          {citiesFrom.map(city => (
+                            <option key={city} value={city} />
+                          ))}
+                        </datalist>
                       </div>
                       <div className="relative">
                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary" />
@@ -389,8 +411,14 @@ export default function UserDashboard() {
                           placeholder="Halka aadayso..."
                           value={searchTo}
                           onChange={(e) => setSearchTo(e.target.value)}
+                          list="cities-to"
                           className="pl-10 h-10 sm:h-12 rounded-lg sm:rounded-xl border-border/50 bg-background focus:ring-2 focus:ring-primary/20 text-sm sm:text-base"
                         />
+                        <datalist id="cities-to">
+                          {citiesTo.map(city => (
+                            <option key={city} value={city} />
+                          ))}
+                        </datalist>
                       </div>
                       <div className="relative">
                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
