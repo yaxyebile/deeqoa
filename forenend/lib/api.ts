@@ -2,11 +2,7 @@
 
 const API_BASE = typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_API_URL
   ? process.env.NEXT_PUBLIC_API_URL
-<<<<<<< HEAD
   : 'https://deeqoa-2.onrender.com';
-=======
-  : ' https://deeqoa-1.onrender.com';
->>>>>>> c3fd3a1bce867b1f090302a4f84972d930325da0
 
 export type User = {
   id: string;

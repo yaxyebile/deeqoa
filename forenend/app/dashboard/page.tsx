@@ -605,9 +605,9 @@ export default function UserDashboard() {
                         <div className="flex flex-col md:flex-row">
                           {/* Bus Image */}
                           <div className="relative w-full md:w-48 h-40 md:h-auto bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden">
-                            {bus.image ? (
+                            {bus.imageUrl ? (
                               <img 
-                                src={bus.image || "/placeholder.svg"} 
+                                src={bus.imageUrl || "/placeholder.svg"} 
                                 alt={bus.name}
                                 className="w-full h-full object-cover"
                               />
@@ -967,9 +967,9 @@ export default function UserDashboard() {
                 <div className="xl:col-span-2 space-y-4">
                   <div className="bg-card rounded-2xl border border-border overflow-hidden">
                     <div className="relative h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                      {selectedBus.image ? (
+                      {selectedBus.imageUrl ? (
                         <img 
-                          src={selectedBus.image || "/placeholder.svg"} 
+                          src={selectedBus.imageUrl || "/placeholder.svg"} 
                           alt={selectedBus.name}
                           className="w-full h-full object-cover"
                         />

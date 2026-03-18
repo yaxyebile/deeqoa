@@ -18,6 +18,7 @@ import {
   updateBookingStatus,
   getBookedSeats,
   deleteBookingsByBusId,
+  getBuses,
   type Bus,
   type Booking,
   getBusById,
@@ -505,7 +506,7 @@ BusBook - Safar Raaxo leh!`;
                                       {stats.totalPassengers}
                                     </span>
                                   )}
-                                  {item.badge !== undefined && item.badge > 0 && item.id !== 'passengers' && (
+                                   {item.badge !== undefined && item.badge > 0 && (item.id as string) !== 'passengers' && (
                                     <span className={`ml-auto text-xs px-2 py-0.5 rounded-full ${
                                       item.id === 'trips' 
                                         ? 'bg-amber-500/20 text-amber-400' 
@@ -1500,8 +1501,8 @@ BusBook - Safar Raaxo leh!`;
                         className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
                       />
                       <datalist id="cities-from">
-                        {citiesFrom.map(city => (
-                          <option key={city} value={city} />
+                        {citiesFrom.map((city, idx) => (
+                          <option key={idx} value={city} />
                         ))}
                       </datalist>
                     </div>
@@ -1516,8 +1517,8 @@ BusBook - Safar Raaxo leh!`;
                         className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
                       />
                       <datalist id="cities-to">
-                        {citiesTo.map(city => (
-                          <option key={city} value={city} />
+                        {citiesTo.map((city, idx) => (
+                          <option key={idx} value={city} />
                         ))}
                       </datalist>
                     </div>

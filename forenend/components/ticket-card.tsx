@@ -258,7 +258,7 @@ BusBook - Safar Wanaagsan!`;
     setReminderSent(false);
 
     try {
-      const result = await sendTripReminderSMS(userPhone, booking.userName, bus?.name || 'Bus', bus?.from || '-', bus?.to || '-', booking.bookingDate);
+      const result = await sendTripReminderSMS(userPhone, booking.userName, bus?.name || 'Bus', bus?.from || '-', bus?.to || '-', booking.bookingDate, booking.seatNumbers);
       if (result.success) {
         setReminderSent(true);
         setTimeout(() => setReminderSent(false), 3000);

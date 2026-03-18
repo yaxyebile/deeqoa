@@ -16,7 +16,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   login: (email: string, password: string) => { success: boolean; error?: string };
-  register: (name: string, email: string, phone: string, password: string, role: 'bus_admin' | 'user') => Promise<{ success: boolean; error?: string }>;
+  register: (name: string, email: string, phone: string, password: string, role: 'bus_admin' | 'user') => Promise<{ success: boolean; error?: string; pendingApproval?: boolean }>;
   logout: () => void;
 }
 
